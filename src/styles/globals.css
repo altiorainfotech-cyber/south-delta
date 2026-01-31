@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors */
+  --color-yellow: #FFC107;
+  --color-gray: #515A60;
+  --color-blue: #0B5ED7;
+
+  /* Font Families */
+  --font-inter: "Inter", sans-serif;
+  --font-rowdies: "Rowdies", cursive;
+  --font-italianno: "Italianno", cursive;
+}
