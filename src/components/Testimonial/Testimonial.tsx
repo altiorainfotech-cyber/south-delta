@@ -123,7 +123,7 @@ export default function Testimonial() {
           </div>
 
           {/* Dots Pagination */}
-          <div className="flex justify-start gap-2 mt-6 ml-[30%]">
+          <div className="flex justify-center lg:justify-start gap-2 mt-6 lg:ml-[30%]">
             {testimonials.map((_, idx) => (
               <button
                 key={idx}
