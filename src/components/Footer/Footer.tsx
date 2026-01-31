@@ -222,16 +222,13 @@ export default function Footer() {
 
         {/* Copyright */}
         <div
-          className={`pt-8 flex transition-all duration-[1000ms] ease-out delay-[600ms] ${
+          className={`pt-8 transition-all duration-[1000ms] ease-out delay-[600ms] ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
           }`}
         >
-          <div className="hidden lg:block lg:w-[30%]"></div>
-          <div className="w-full lg:w-[70%]">
-            <p className="font-inter text-[16px] font-normal text-white ml-[42px]">
-              Copyright 2026. All Rights Reserved || Design & Development By Altiorainfotech
-            </p>
-          </div>
+          <p className="font-inter text-[12px] md:text-[13px] font-normal text-white text-center w-full">
+            Copyright 2026. All Rights Reserved || Design & Development By Altiorainfotech
+          </p>
         </div>
       </div>
     </footer>

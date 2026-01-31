@@ -14,6 +14,8 @@ const navLinks = [
     hasDropdown: true,
     subLinks: [
       { href: "/services/projects", label: "Projects" },
+      { href: "/services/service-small-projects", label: "Service & Small Projects" },
+      { href: "/services/telecom", label: "Telecom" },
     ],
   },
   { href: "/#gallery", label: "Gallery" },
@@ -24,6 +26,8 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileDropdown, setMobileDropdown] = useState<string | null>(null);
 
   return (
     <header className="absolute top-0 left-0 right-0 z-50 w-full">
@@ -125,22 +129,125 @@ export default function Header() {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button className="lg:hidden text-white p-2" aria-label="Open menu">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="w-8 h-8"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
+          <button
+            className="lg:hidden text-white p-2"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-8 h-8"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="w-8 h-8"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            )}
           </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+            isMobileMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <nav className="bg-[#0a1628]/95 backdrop-blur-md rounded-lg mt-4 py-4 px-6">
+            {navLinks.map((link) => {
+              const isActive =
+                pathname === link.href ||
+                (link.subLinks &&
+                  link.subLinks.some((sub) => pathname === sub.href));
+
+              if (link.hasDropdown && link.subLinks) {
+                return (
+                  <div key={link.href} className="py-2">
+                    <button
+                      onClick={() =>
+                        setMobileDropdown(
+                          mobileDropdown === link.href ? null : link.href
+                        )
+                      }
+                      className={`w-full flex items-center justify-between font-inter text-[18px] text-white hover:text-[#FDC052] transition-colors ${
+                        isActive ? "font-semibold text-[#FDC052]" : "font-normal"
+                      }`}
+                    >
+                      {link.label}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={2}
+                        stroke="currentColor"
+                        className={`w-4 h-4 transition-transform duration-200 ${
+                          mobileDropdown === link.href ? "rotate-180" : ""
+                        }`}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
+                    </button>
+                    <div
+                      className={`overflow-hidden transition-all duration-200 ${
+                        mobileDropdown === link.href ? "max-h-40 mt-2" : "max-h-0"
+                      }`}
+                    >
+                      {link.subLinks.map((subLink) => (
+                        <Link
+                          key={subLink.href}
+                          href={subLink.href}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                          className={`block pl-4 py-2 font-inter text-[16px] text-gray-300 hover:text-[#FDC052] transition-colors ${
+                            pathname === subLink.href ? "text-[#FDC052]" : ""
+                          }`}
+                        >
+                          {subLink.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block py-2 font-inter text-[18px] text-white hover:text-[#FDC052] transition-colors ${
+                    isActive ? "font-semibold text-[#FDC052]" : "font-normal"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
         </div>
       </div>
     </header>
